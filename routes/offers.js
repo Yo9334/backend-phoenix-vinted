@@ -41,7 +41,7 @@ router.get("/", async (req, res) => {
       }
     });
 
-    console.log(filter, "sort : ", sort, "page : ", page);
+    console.log(filter, ", sort : ", sort, ", page : ", page);
 
     if (page > 0) {
       offersToFind = await Offer.find(filter)

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cloudinary = require("cloudinary").v2; // Import de cloudinary
+// Import de cloudinary
+const cloudinary = require("cloudinary").v2;
 const app = express();
 app.use(express.json());
 
