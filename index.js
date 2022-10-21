@@ -22,12 +22,13 @@ cloudinary.config({
   secure: true,
 });
 
-/*app.get("/", (req, res) => {
-  res.send("Api Vinted started");
-});*/
 app.use("/user", userRoutes);
 app.use("/offer", offerRoutes);
 app.use("/offers", offersRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Api Vinted started");
+});
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This route not exist." });
