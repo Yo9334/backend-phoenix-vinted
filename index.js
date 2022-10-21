@@ -22,9 +22,9 @@ cloudinary.config({
   secure: true,
 });
 
-app.get("/", (req, res) => {
+/*app.get("/", (req, res) => {
   res.send("Api Vinted started");
-});
+});*/
 app.use("/user", userRoutes);
 app.use("/offer", offerRoutes);
 app.use("/offers", offersRoutes);
