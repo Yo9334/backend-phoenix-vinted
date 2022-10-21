@@ -15,7 +15,7 @@ router.post("/signup", async (req, res) => {
   try {
     const userToFind = await User.findOne({ email: email });
     if (userToFind) {
-      return res.status(409).json({ message: "This email is already exist !" });
+      return res.status(409).json({ message: "This email is already exist." });
     }
 
     const salt = uid2(16);
@@ -40,9 +40,6 @@ router.post("/signup", async (req, res) => {
         _id: newUser._id,
         token: newUser.token,
         account: newUser.account,
-        /*account: {
-          username: newUser.account.username,
-        },*/
       });
     } else {
       return res.status(400).json({ message: "Some parameters are missing." });
@@ -70,9 +67,6 @@ router.post("/login", async (req, res) => {
           _id: userToFind._id,
           token: userToFind.token,
           account: userToFind.account,
-          /*account: {
-            username: userToFind.account.username,
-          },*/
         });
       } else {
         res.status(401).json({ message: "Unauthorized" });

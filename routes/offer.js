@@ -44,7 +44,6 @@ router.post("/publish", auth, fileUpload(), async (req, res) => {
       owner: req.user,
     });
 
-    // ...
     if (req.files?.picture) {
       // Je convertie le fichier reçu en base64
       const pictureConverted = convertToBase64(req.files.picture);
@@ -54,8 +53,8 @@ router.post("/publish", auth, fileUpload(), async (req, res) => {
       });
       newOffer.product_image = result;
     }
-
     await newOffer.save();
+
     res.json(newOffer);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -65,44 +64,26 @@ router.post("/publish", auth, fileUpload(), async (req, res) => {
 router.delete("/:id", async (req, res) => {
   console.log("==> route delete /offer");
   const id = req.params.id;
-  const tab = ["vinted"];
+  const tab = [];
 
-  res.json("plus tard ...");
-
-  /*
-  try {
-    // const result = await cloudinary.api.root_folders("vinted/offer");
-    // console.log(result, "-->");
-    result = await cloudinary.api.delete_folder("vinted/offer/");
-    console.log(result, "-->");
-    res.json("ok");
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-  */
-
-  /*
   try {
     const offerTodelete = await Offer.findByIdAndDelete(id);
     if (!offerTodelete) {
-      return res
-        .status(400)
-        .json({ message: "Offer `" + id + "` not exist !" });
+      return res.status(400).json({ message: "Offer `" + id + "` not exist." });
     }
-    tab.push(offerTodelete.product_image.public_id); //value img for deleting
-    tab.push(offerTodelete._id.toString()); //value folder for deleting
+    tab.push(offerTodelete.product_image.public_id); //value image for deleting
 
+    //delete in cloudinary
     tab.forEach(async (el) => {
-      //delete in cloudinary
-      console.log("...el to delete : ", el);
-      const result = await cloudinary.api.delete_resources(el);
-      console.log(result);
+      await cloudinary.api.delete_resources(el);
+      //const result = await cloudinary.api.delete_resources(el);
+      //console.log(result);
     });
 
     res.json({ message: "Offer `" + id + "` has deleted." });
   } catch (error) {
     res.status(400).json({ error: error.message });
-  }*/
+  }
 });
 
 module.exports = router;
