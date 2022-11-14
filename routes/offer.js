@@ -54,8 +54,9 @@ router.post("/publish", auth, fileUpload(), async (req, res) => {
       });
       newOffer.product_image = result;
     }
-    await newOffer.save();
 
+    await newOffer.save();
+    // console.log(newOffer);
     res.json(newOffer);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -93,7 +94,7 @@ router.get("/:id", async (req, res) => {
   console.log("==>", "route get /offer/:id");
   try {
     const id = req.params.id;
-    const offerToFind = await Offer.findById(id);
+    const offerToFind = await Offer.findById(id).populate("owner", "account");
     if (!offerToFind) {
       return res.status(400).json({ message: "Offer `" + id + "` not exist." });
     }

@@ -47,14 +47,14 @@ router.get("/", async (req, res) => {
     // console.log(filter);
 
     offersToFind = await Offer.find(filter)
-      .select("product_name product_price owner")
-      .populate("owner", "account _id")
+      .select("product_name product_price owner product_image")
+      .populate("owner", "account") //("owner", "account _id")
       .skip(page !== 0 ? (page - 1) * limit : 0)
       .sort(sort)
       .limit(limit);
 
     const countOffers = await Offer.countDocuments(filter);
-
+    // console.log(offersToFind);
     res.json({ count: countOffers, offers: offersToFind });
   } catch (error) {
     res.status(400).json({ error: error.message });
