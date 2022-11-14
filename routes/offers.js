@@ -4,17 +4,16 @@ const Offer = require("../models/Offer");
 
 router.get("/", async (req, res) => {
   console.log("==>", "route get /offers");
-  //console.log("query :", req.query);
+  // console.log("query :", req.query);
 
   const keys = Object.keys(req.query);
-  //console.log("Keys : ", keys);
+  // console.log("Keys : ", keys);
 
   let offersToFind = [];
   const filter = {};
-  filter.product_price = {};
   let sort = {};
 
-  let limit = 5;
+  let limit = 500;
   let page = 0;
 
   try {
@@ -38,12 +37,19 @@ router.get("/", async (req, res) => {
       }
     });
 
-    //console.log(filter, ", sort : ", sort, ", page : ", page);
+    if (req.query.priceMin && req.query.priceMax) {
+      filter.product_price = {
+        $gte: req.query.priceMin,
+        $lte: req.query.priceMax,
+      };
+    }
+
+    // console.log(filter);
 
     offersToFind = await Offer.find(filter)
       .select("product_name product_price owner")
       .populate("owner", "account _id")
-      .skip((page - 1) * limit)
+      .skip(page !== 0 ? (page - 1) * limit : 0)
       .sort(sort)
       .limit(limit);
 
