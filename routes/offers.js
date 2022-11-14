@@ -4,10 +4,10 @@ const Offer = require("../models/Offer");
 
 router.get("/", async (req, res) => {
   console.log("==>", "route get /offers");
-  // console.log("query :", req.query);
+  console.log("query :", req.query);
 
   const keys = Object.keys(req.query);
-  // console.log("Keys : ", keys);
+  console.log("Keys : ", keys);
 
   let offersToFind = [];
   const filter = {};
@@ -22,11 +22,13 @@ router.get("/", async (req, res) => {
         filter.product_name = new RegExp(req.query[el], "i");
       } else if (el === "priceMax") {
         if (Number(req.query[el])) {
-          filter.product_price["$lte"] = Number(req.query[el]);
+          // filter.product_price["$lte"] = Number(req.query[el]);
+          filter.product_price = { $lte: Number(req.query[el]) };
         }
       } else if (el === "priceMin") {
         if (Number(req.query[el])) {
-          filter.product_price["$gte"] = Number(req.query[el]);
+          // filter.product_price["$gte"] = Number(req.query[el]);
+          filter.product_price = { $gte: Number(req.query[el]) };
         }
       } else if (el === "sort" && req.query[el] === "price-desc") {
         sort = { product_price: -1 };
