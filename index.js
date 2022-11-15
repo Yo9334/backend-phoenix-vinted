@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGODB_URI);
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
 const offersRoutes = require("./routes/offers");
+const paymentRoutes = require("./routes/payment");
 
 // Je me connecte à mon compte cloudinary avec mes identifiants présents sur mon compte
 cloudinary.config({
@@ -25,6 +26,7 @@ cloudinary.config({
 app.use("/user", userRoutes);
 app.use("/offer", offerRoutes);
 app.use("/offers", offersRoutes);
+app.use("/payment", paymentRoutes);
 
 app.get("/", (req, res) => {
   res.send("Api Vinted started");
