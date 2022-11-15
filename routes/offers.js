@@ -4,10 +4,10 @@ const Offer = require("../models/Offer");
 
 router.get("/", async (req, res) => {
   console.log("==>", "route get /offers");
-  console.log("query :", req.query);
+  // console.log("query :", req.query);
 
   const keys = Object.keys(req.query);
-  console.log("Keys : ", keys);
+  // console.log("Keys : ", keys);
 
   let offersToFind = [];
   const filter = {};
@@ -49,8 +49,8 @@ router.get("/", async (req, res) => {
     // console.log(filter);
 
     offersToFind = await Offer.find(filter)
-      .select("product_name product_price owner product_image")
-      .populate("owner", "account") //("owner", "account _id")
+      .select("product_name product_price owner product_image product_details")
+      .populate("owner", "account _id")
       .skip(page !== 0 ? (page - 1) * limit : 0)
       .sort(sort)
       .limit(limit);
